@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Product({ image, title, id, price }) {
+  console.log(`rendering... [Product]`,image)
   const url = image.url;
   return (
     <article className="product">
