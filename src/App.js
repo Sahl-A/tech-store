@@ -10,10 +10,13 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
+// Components
+import Header from "./components/Header";
 
 function App() {
   return (
     <>
+      <Header />
       <Switch>
         <Route exact path="/about">
           <About />
