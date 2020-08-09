@@ -12,10 +12,12 @@ import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 // Components
 import Header from "./components/Header";
+// Context
+import { ProductProvider } from "./context/products";
 
 function App() {
   return (
-    <>
+    <ProductProvider>
       <Header />
       <Switch>
         <Route exact path="/about">
@@ -43,7 +45,7 @@ function App() {
           <Error />
         </Route>
       </Switch>
-    </>
+    </ProductProvider>
   );
 }
 
