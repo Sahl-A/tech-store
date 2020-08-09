@@ -12,8 +12,12 @@ export const ProductProvider = ({children}) => {
 
     // Get the data from the server
     React.useEffect(()=>{
+        setLoading(true);
         axios.get(`${URL}/products`)
-            .then(res => setProducts(res.data));
+            .then(res => {
+                setProducts(res.data);
+                setLoading(false);
+            });
         return () => {};
     }, []);
 
