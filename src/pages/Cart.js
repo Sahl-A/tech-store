@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function Cart() {
   // Will be removed later, to check wheather user is authenticated
   const auth = false;
-  const { cart, total } = React.useContext(CartContext);
+  const { cart, totalPrice } = React.useContext(CartContext);
   if (!cart.length) return <EmptyCart />;
   return (
     <section className="cart-items section">
@@ -16,7 +16,7 @@ export default function Cart() {
       {cart.map((item) => (
         <CartItem key={item.id} {...item} />
       ))}
-      <h2>Total: ${total}</h2>
+      <h2>Total: ${totalPrice}</h2>
       {auth ? (
         <Link to="/checkout" className="btn-primary btn btn-block">
           checkout
