@@ -1,11 +1,12 @@
 import React from "react";
-import localCart from "../utils/localCart";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export const CartContext = React.createContext();
 
 export const CartProvider = ({ children }) => {
   // Set the needed values
-  const [cart, setCart] = React.useState(localCart);
+  // Use the localStorage hook to set the cart
+  const [cart, setCart] = useLocalStorage("cart", []);
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [cartItems, setCartItems] = React.useState(0);
 
