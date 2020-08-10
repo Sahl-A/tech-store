@@ -27,18 +27,58 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
   // set the methods to be used
   // Remove item
-  const removeItem = (id) => {};
+  const removeItem = (id) => {
+    const newCart = cart.filter((item) => item.id !== id);
+    setCart(newCart);
+  };
   // increase amout
-  const increaseAmount = (id) => {};
+  const increaseAmount = (id) => {
+    const newCart = cart.map((item) =>
+      item.id === id ? { ...item, amount: item.amount + 1 } : { ...item }
+    );
+    setCart(newCart);
+  };
   // decrease amout
-  const decreaseAmount = (id) => {};
+  const decreaseAmount = (id) => {
+    const newCart = cart.map((item) =>
+      item.id === id ? { ...item, amount: item.amount - 1 } : { ...item }
+    );
+    setCart(newCart);
+  };
   // Add to cart
-  const addToCart = (product) => {};
+  const addToCart = (product) => {
+    // Destruct the properties of the received product
+    const { title, price, id, image } = product;
+    // If the item is in the cart, increment the amount by 1
+    const item = cart.find((item) => item.id === id);
+    if (item) {
+      increaseAmount(id);
+      return;
+    }
+    // Add the Item to the cart
+    const newCart = [
+      ...cart,
+      { title, price, id, amount: 1, image: image.url },
+    ];
+    setCart(newCart);
+  };
   // Clear Cart
-  const clearCart = () => {};
+  const clearCart = () => {
+    setCart([]);
+  };
 
   return (
-    <CartContext.Provider value={{ cart, totalPrice, cartItems }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        totalPrice,
+        cartItems,
+        removeItem,
+        increaseAmount,
+        decreaseAmount,
+        addToCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
