@@ -1,7 +1,44 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { ProductContext } from "../context/products";
+import Loading from "../components/Loading";
 
 export default function ProductDetails() {
+  // Get the products from the products context
+  const { products } = React.useContext(ProductContext);
+  // Get the history to push the page to cart page
+  const history = useHistory();
+  // Get the id using when routing to this page
   const { id } = useParams();
-  return <h1>hello from product details page. Product id: {id}</h1>;
+  // Get current product from all products
+  const currProduct = products.find((item) => item.id === parseInt(id));
+  // Check if the products array is empty.
+  // It happens when we open the ProductDetails page directly
+  if (!products.length) return <Loading />;
+  // Destruct the needed items from current product
+  const {
+    image: { url },
+    price,
+    description,
+    title,
+  } = currProduct;
+  return (
+    <section className="single-product">
+      <img src={url} alt={title} className="single-product-image" />
+      <article>
+        <h1>{title}</h1>
+        <h2>${price}</h2>
+        <p>{description}</p>
+        <button 
+          className='btn btn-primary btn-block'
+          onClick={()=>{
+            // add to cart
+            // push to cart page
+            history.push('/cart');
+          }}>
+            add to cart
+        </button>
+      </article>
+    </section>
+  );
 }
