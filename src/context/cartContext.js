@@ -8,16 +8,16 @@ export const CartProvider = ({ children }) => {
   // Use the localStorage hook to set the cart
   const [cart, setCart] = useLocalStorage("cart", []);
   const [totalPrice, setTotalPrice] = React.useState(0);
-  const [cartItems, setCartItems] = React.useState(0);
+  const [cartItemsCount, setCartItemsCount] = React.useState(0);
 
   // Calculate the totalPrice & the cartItems after each render when cart changes
   React.useEffect(() => {
     // calculate the cartItems
-    const newcartItems = cart.reduce(
+    const newcartItemsCount = cart.reduce(
       (total, cartItem) => (total += cartItem.amount),
       0
     );
-    setCartItems(newcartItems);
+    setCartItemsCount(newcartItemsCount);
 
     // Calculate the totalPrice
     const price = cart.reduce(
@@ -73,7 +73,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         totalPrice,
-        cartItems,
+        cartItemsCount,
         removeItem,
         increaseAmount,
         decreaseAmount,
