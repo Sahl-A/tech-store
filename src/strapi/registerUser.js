@@ -9,6 +9,6 @@ export default async ({ username, email, password }) => {
       email,
       password,
     })
-    .catch((err) => console.log(err));
+    .catch((err) =>  alert(`Error:${err}`));
   return response;
 };

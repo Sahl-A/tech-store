@@ -1,5 +1,6 @@
 import React from "react";
 import registerUser from '../strapi/registerUser';
+import loginUser from "../strapi/loginUser";
 
 export default function Login() {
   // Set the state values
@@ -18,7 +19,7 @@ export default function Login() {
     // Handle https request
     if (isMember) {
       // run login logic
-      // response = await axios.post();
+      response = await loginUser({email, password});
     } else {
       // run register logic
       response = await registerUser({username, password, email});
