@@ -1,4 +1,5 @@
 import React from "react";
+import registerUser from '../strapi/registerUser';
 
 export default function Login() {
   // Set the state values
@@ -7,15 +8,36 @@ export default function Login() {
   const [username, setUsername] = React.useState("default");
   const [isMember, setIsMember] = React.useState(true);
 
+  // check validation if fields are empty
+  const isEmpty = !email || !password || !username;
+
   // Handle when submitted
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let response;
+    // Handle https request
+    if (isMember) {
+      // run login logic
+      // response = await axios.post();
+    } else {
+      // run register logic
+      response = await registerUser({username, password, email});
+    }
+    // Handle response
+    if (response) {
+      console.log('success')
+      console.log(response);
+    } else {
+      // alert Error
+    }
   };
 
   // When click to toggle member
   const toggleMember = (e) => {
     e.preventDefault();
     setIsMember(!isMember);
+    // Remove the default value if user is not member
+    isMember ? setUsername("") : setUsername("default");
   };
 
   return (
@@ -29,7 +51,7 @@ export default function Login() {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => e.target.value}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="form-control">
@@ -38,7 +60,7 @@ export default function Login() {
             type="text"
             id="password"
             value={password}
-            onChange={(e) => e.target.value}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         {isMember ? null : (
@@ -48,13 +70,16 @@ export default function Login() {
               type="text"
               id="username"
               value={username}
-              onChange={(e) => e.target.value}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
         )}
-        <p className="form-empty">Please fill out all the form fields</p>
+        {/* Show validation msg if fields are empty */}
+        {isEmpty ? (
+          <p className="form-empty">Please fill out all the form fields</p>
+        ) : null}
         {/* Submit button */}
-        {isMember ? (
+        {!isEmpty ? (
           <button
             className="btn btn-primary btn-block"
             type="submit"
@@ -68,18 +93,14 @@ export default function Login() {
           <>
             <p className="register-link">
               Already A member
-              <button onClick={toggleMember}>
-                Click Here
-              </button>
+              <button onClick={toggleMember}>Click Here</button>
             </p>
           </>
         ) : (
           <>
             <p className="register-link">
               Need to register
-              <button onClick={toggleMember}>
-                Click Here
-              </button>
+              <button onClick={toggleMember}>Click Here</button>
             </p>
           </>
         )}
