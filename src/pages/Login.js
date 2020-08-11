@@ -1,8 +1,18 @@
 import React from "react";
-import registerUser from '../strapi/registerUser';
+// strapi functions
+import registerUser from "../strapi/registerUser";
 import loginUser from "../strapi/loginUser";
+// context
+import { UserContext } from "../context/userContext";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
+  // Get the context value
+  const { userLogin } = React.useContext(UserContext);
+
+  // Get the history
+  const history = useHistory();
+
   // Set the state values
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -19,15 +29,22 @@ export default function Login() {
     // Handle https request
     if (isMember) {
       // run login logic
-      response = await loginUser({email, password});
+      response = await loginUser({ email, password });
     } else {
       // run register logic
-      response = await registerUser({username, password, email});
+      response = await registerUser({ username, password, email });
     }
     // Handle response
     if (response) {
-      console.log('success')
-      console.log(response);
+      console.log("success", response);
+      const {
+        jwt: token,
+        user: { username },
+      } = response.data;
+      // Pass the user data to the context
+      userLogin({ token, username });
+      // Direct the page to /products
+      history.push('/products')
     } else {
       // alert Error
     }

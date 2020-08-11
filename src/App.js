@@ -15,40 +15,43 @@ import Header from "./components/Header";
 // Contexts
 import { ProductProvider } from "./context/products";
 import { CartProvider } from "./context/cartContext";
+import { UserProvider } from "./context/userContext";
 
 function App() {
   return (
-    <ProductProvider>
-      <CartProvider>
-        <Header />
-        <Switch>
-          <Route exact path="/about">
-            <About />
-          </Route>
-          <Route exact path="/cart">
-            <Cart />
-          </Route>
-          <Route exact path="/checkout">
-            <Checkout />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/products">
-            <Products />
-          </Route>
-          <Route exact path="/products/:id">
-            <ProductDetails />
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="*">
-            <Error />
-          </Route>
-        </Switch>
-      </CartProvider>
-    </ProductProvider>
+    <UserProvider>
+      <ProductProvider>
+        <CartProvider>
+          <Header />
+          <Switch>
+            <Route exact path="/about">
+              <About />
+            </Route>
+            <Route exact path="/cart">
+              <Cart />
+            </Route>
+            <Route exact path="/checkout">
+              <Checkout />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/products">
+              <Products />
+            </Route>
+            <Route exact path="/products/:id">
+              <ProductDetails />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="*">
+              <Error />
+            </Route>
+          </Switch>
+        </CartProvider>
+      </ProductProvider>
+    </UserProvider>
   );
 }
 
