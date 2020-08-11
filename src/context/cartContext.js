@@ -59,14 +59,14 @@ export const CartProvider = ({ children }) => {
     // Add the Item to the cart
     const newCart = [
       ...cart,
-      { title, price, id, amount: 1, image: image.url },
+      { title, price, id, amount: 1, image },
     ];
     setCart(newCart);
   };
   // Clear Cart
-  const clearCart = () => {
+  /* const clearCart = () => {
     setCart([]);
-  };
+  }; */
 
   return (
     <CartContext.Provider
