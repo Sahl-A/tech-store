@@ -7,12 +7,35 @@ import { Redirect, useHistory } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import { CartContext } from "../context/cartContext";
 // react-stripe elements
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import submitOrder from "../strapi/submitOrder";
 
-export default function Checkout(props) {
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      color: "#32325d",
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#aab7c4",
+      },
+    },
+    invalid: {
+      color: "#fa755a",
+      iconColor: "#fa755a",
+    },
+  },
+};
+
+export default function Checkout() {
   // Get values from context
   const { user } = React.useContext(UserContext);
   const { cart, totalPrice, clearCart } = React.useContext(CartContext);
+
+  // Get Stripe values
+  const stripe = useStripe();
+  const elements = useElements();
 
   // Get the history
   const history = useHistory();
@@ -20,15 +43,33 @@ export default function Checkout(props) {
   // Set States
   const [name, setName] = React.useState("");
   const [error, setError] = React.useState("");
-  const isEmpty = !name;
+  const isEmpty = !name || !stripe || !elements;
 
   // When submitting the form
   const handleSubmit = async (e) => {
-    e.preventdefaultI();
+    e.preventDefault();
+    // Create token to send it to the backend so the backend can make the payment with stripe
+    const cardElement = elements.getElement(CardElement);
+    const response = await stripe
+      .createToken(cardElement)
+      .catch((err) => alert(`ERROR in getting token`));
+
+    // Check if the token is received
+    if (response.token) {
+      // Submit the order
+      const order = await submitOrder({name, items: cart, totalPrice, stripeTokenId: response.token.id, userToken: user.token});
+      if (order) {
+        clearCart();
+        history.push("/");
+        return;
+      }
+    } else {
+      setError(response.error.message);
+    }
   };
 
   // Return EmptyCart component if cart is empty
-  if(!cart.length) return <EmptyCart />;
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <>
@@ -62,6 +103,10 @@ export default function Checkout(props) {
               enter any 3 digits for the CVC
             </p>
           </div>
+          <CardElement
+            className="card-element"
+            options={CARD_ELEMENT_OPTIONS}
+          />
           {error && <p className="form-empty">{error}</p>}
           {isEmpty ? (
             <p className="form-empty">please fill out name field</p>

@@ -4,7 +4,6 @@ import { Switch, Route } from "react-router";
 // Pages
 import About from "./pages/About";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -12,6 +11,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 // Components
 import Header from "./components/Header";
+import StripeWrapper from "./components/StripeWrapper";
 // Contexts Providers
 import { ProductProvider } from "./context/products";
 import { CartProvider } from "./context/cartContext";
@@ -31,7 +31,7 @@ function App() {
               <Cart />
             </Route>
             <Route exact path="/checkout">
-              <Checkout />
+              <StripeWrapper />
             </Route>
             <Route exact path="/login">
               <Login />
