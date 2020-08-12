@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import CartLink from "../components/Cart/CartLink";
+// Context Consumers
+import { UserContext } from "../context/userContext";
 
 export default function Header() {
+  const { user, userLogout } = React.useContext(UserContext);
   return (
     <header className="header">
       <img src={Logo} alt="vintage tech logo" className="logo" />
@@ -22,7 +25,11 @@ export default function Header() {
           </div>
           <div>
             <li>
-              <Link to="/login">Login</Link>
+              {user.token ? (
+                <Link to="/" onClick={userLogout}>Logout</Link>
+              ) : (
+                <Link to="/login">Login</Link>
+              )}
             </li>
             <li>
               <CartLink />

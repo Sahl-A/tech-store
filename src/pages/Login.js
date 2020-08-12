@@ -18,6 +18,7 @@ export default function Login() {
   const [password, setPassword] = React.useState("");
   const [username, setUsername] = React.useState("default");
   const [isMember, setIsMember] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   // check validation if fields are empty
   const isEmpty = !email || !password || !username;
@@ -26,6 +27,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let response;
+    setLoading(true)
     // Handle https request
     if (isMember) {
       // run login logic
@@ -34,6 +36,7 @@ export default function Login() {
       // run register logic
       response = await registerUser({ username, password, email });
     }
+    setLoading(false);
     // Handle response
     if (response) {
       console.log("success", response);
@@ -102,6 +105,7 @@ export default function Login() {
             className="btn btn-primary btn-block"
             type="submit"
             onClick={handleSubmit}
+            disabled={loading}
           >
             Submit
           </button>

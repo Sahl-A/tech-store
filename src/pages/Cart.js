@@ -1,13 +1,13 @@
 import React from "react";
 import { CartContext } from "../context/cartContext";
-// import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/userContext";
 import EmptyCart from "../components/Cart/EmptyCart";
 import CartItem from "../components/Cart/CartItem";
 import { Link } from "react-router-dom";
 
 export default function Cart() {
-  // Will be removed later, to check wheather user is authenticated
-  const auth = false;
+  // Check wheather user is authenticated
+  const {user: auth} = React.useContext(UserContext);
   const { cart, totalPrice } = React.useContext(CartContext);
   if (!cart.length) return <EmptyCart />;
   return (
@@ -17,7 +17,7 @@ export default function Cart() {
         <CartItem key={item.id} {...item} />
       ))}
       <h2>Total: ${totalPrice}</h2>
-      {auth ? (
+      {auth.token ? (
         <Link to="/checkout" className="btn-primary btn btn-block">
           checkout
         </Link>

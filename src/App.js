@@ -12,7 +12,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 // Components
 import Header from "./components/Header";
-// Contexts
+// Contexts Providers
 import { ProductProvider } from "./context/products";
 import { CartProvider } from "./context/cartContext";
 import { UserProvider } from "./context/userContext";
