@@ -4,7 +4,7 @@ import URL from "../utils/URL";
 
 // Submit the order
 export default async ({
-  name,
+  name, 
   totalPrice,
   items,
   stripeTokenId,
