@@ -22,11 +22,18 @@ export default function Header() {
             <li>
               <Link to="/products">Products</Link>
             </li>
+            {user.token ? (
+              <li>
+                <Link to="/checkout">Checkout</Link>
+              </li>
+            ) : null}
           </div>
           <div>
             <li>
               {user.token ? (
-                <Link to="/" onClick={userLogout}>Logout</Link>
+                <Link to="/" onClick={userLogout}>
+                  Logout
+                </Link>
               ) : (
                 <Link to="/login">Login</Link>
               )}
