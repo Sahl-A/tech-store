@@ -64,9 +64,9 @@ export const CartProvider = ({ children }) => {
     setCart(newCart);
   };
   // Clear Cart
-  /* const clearCart = () => {
+  const clearCart = () => {
     setCart([]);
-  }; */
+  };
 
   return (
     <CartContext.Provider
@@ -78,6 +78,7 @@ export const CartProvider = ({ children }) => {
         increaseAmount,
         decreaseAmount,
         addToCart,
+        clearCart
       }}
     >
       {children}
