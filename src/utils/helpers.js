@@ -7,10 +7,10 @@ export const featuredProducts = (data) => data.filter((item) => item.featured);
 export const flattenImageUrl = (data) => {
   return data.map((item) => {
     // Using Cloudinary
-    // let image = item.image.url;
+    let image = item.image.url;
 
     // Local setup no deployment
-    let image = `${URL}${item.image.url}`;
+    // let image = `${URL}${item.image.url}`;
     return { ...item, image };
   });
 };
