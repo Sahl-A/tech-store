@@ -1,4 +1,4 @@
-import URL from './URL';
+// import URL from './URL';
 
 // Filter the products based on featured
 export const featuredProducts = (data) => data.filter((item) => item.featured);
