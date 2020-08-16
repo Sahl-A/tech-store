@@ -12,6 +12,7 @@ import Products from "./pages/Products";
 // Components
 import Header from "./components/Header";
 import StripeWrapper from "./components/StripeWrapper";
+import ScrollButton from './components/ScrollButton';
 // Contexts Providers
 import { ProductProvider } from "./context/products";
 import { CartProvider } from "./context/cartContext";
@@ -23,6 +24,7 @@ function App() {
       <ProductProvider>
         <CartProvider>
           <Header />
+          <ScrollButton />
           <Switch>
             <Route exact path="/about">
               <About />
