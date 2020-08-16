@@ -1,10 +1,10 @@
 import React from "react";
-// import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/userContext";
 import { FaAngleDoubleUp } from "react-icons/fa";
 
 const ScrollButton = () => {
-  // Hardcoded for esiness, will be changed later by a variable from the UserContext
-  const height = 200;
+  // Get the height from the UserContext
+  const { height } = React.useContext(UserContext);
 
   // When clicking the scroll button
   const scrollButtonHandler = () => {
