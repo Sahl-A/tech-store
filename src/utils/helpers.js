@@ -7,7 +7,8 @@ export const featuredProducts = (data) => data.filter((item) => item.featured);
 export const flattenImageUrl = (data) => {
   return data.map((item) => {
     // Using Cloudinary
-    let image = item.image.url;
+    // The check (item.image &&) is added when we added the propTypes in Product.js
+    let image = item.image && item.image.url;
 
     // Local setup no deployment
     // let image = `${URL}${item.image.url}`;
