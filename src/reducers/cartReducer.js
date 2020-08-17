@@ -1,17 +1,30 @@
 import {
-    increase,
-    decrease,
-    remove,
-    addTooCart,
-    clearAllCart,
-  } from "../actions/cartActions";
-
+  increase,
+  decrease,
+  remove,
+  addTooCart,
+  clearAllCart,
+} from "../actions/cartActions";
 
 const increaseFn = (state, id) => {
   const newState = state.map((item) =>
     item.id === id ? { ...item, amount: item.amount + 1 } : { ...item }
   );
   return newState;
+};
+
+const removeFn = (state, id) => {
+  return [...state.filter((item) => item.id !== id)];
+};
+
+const decreaseFn = (state, id) => {
+  const newState = [
+    ...state.map((item) =>
+      item.id === id ? { ...item, amount: item.amount - 1 } : { ...item }
+    ),
+  ];
+  // Remove any item that has 0 amount
+  return newState.filter((item) => item.amount);
 };
 
 const cartReducer = (state, action) => {
@@ -25,24 +38,19 @@ const cartReducer = (state, action) => {
       // If the item is in the cart, increment the amount by 1
       const item = state.find((item) => item.id === id);
       if (item) {
-        increaseFn(state, id);
-        return;
+        return increaseFn(state, id);
       }
       // Add the Item to the cart
       return [...state, { title, price, id, amount: 1, image }];
 
     case remove:
-      return [...state.filter((item) => item.id !== action.id)];
+      return removeFn(state, action.id);
 
     case decrease:
-      return [
-        ...state.map((item) =>
-          item.id === action.id ? { ...item, amount: item.amount - 1 } : { ...item }
-        ),
-      ];
-    
+      return decreaseFn(state, action.id);
+
     case clearAllCart:
-        return [];
+      return [];
 
     default:
       return state;

@@ -5,7 +5,7 @@ const useLocalStorageReducer = (reducer, key, defaultVal) => {
     const [state, dispatch] = useReducer(reducer, defaultVal, ()=> {
         let val;
         try {
-            val = JSON.parse(localStorage.getItem(key)) || String(defaultVal);
+            val = JSON.parse(localStorage.getItem(key)) || defaultVal;
         } catch(e) {
             val = defaultVal;
         }
