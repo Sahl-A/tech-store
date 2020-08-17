@@ -1,12 +1,15 @@
 import React from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
+
+import cartReducer from '../reducers/cartReducer';
 
 export const CartContext = React.createContext();
 
 export const CartProvider = ({ children }) => {
   // Set the needed values
+  
   // Use the localStorage hook to set the cart
-  const [cart, setCart] = useLocalStorage("cart", []);
+  const [cart, dispatch] = useLocalStorageReducer(cartReducer, 'cart', [])
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [cartItemsCount, setCartItemsCount] = React.useState(0);
 
@@ -26,46 +29,30 @@ export const CartProvider = ({ children }) => {
     );
     setTotalPrice(parseFloat(price.toFixed(2)));
   }, [cart]);
+  // Use useReducer instead of regular context. 
+  // const [state, dispatch] = React.useReducer(cartReducer, [])
   // set the methods to be used
+
   // Remove item
   const removeItem = (id) => {
-    const newCart = cart.filter((item) => item.id !== id);
-    setCart(newCart);
+    dispatch({type: 'REMOVE', id})
   };
   // increase amout
   const increaseAmount = (id) => {
-    const newCart = cart.map((item) =>
-      item.id === id ? { ...item, amount: item.amount + 1 } : { ...item }
-    );
-    setCart(newCart);
+    dispatch({type: 'INCREASE', id})
+
   };
   // decrease amout
   const decreaseAmount = (id) => {
-    const newCart = cart.map((item) =>
-      item.id === id ? { ...item, amount: item.amount - 1 } : { ...item }
-    );
-    setCart(newCart);
+    dispatch({type: 'DECREASE', id})
   };
   // Add to cart
   const addToCart = (product) => {
-    // Destruct the properties of the received product
-    const { title, price, id, image } = product;
-    // If the item is in the cart, increment the amount by 1
-    const item = cart.find((item) => item.id === id);
-    if (item) {
-      increaseAmount(id);
-      return;
-    }
-    // Add the Item to the cart
-    const newCart = [
-      ...cart,
-      { title, price, id, amount: 1, image },
-    ];
-    setCart(newCart);
+    dispatch({type: 'Add_TO_CART', product})
   };
   // Clear Cart
   const clearCart = () => {
-    setCart([]);
+    dispatch({type: 'CLEAR_CART'})
   };
 
   return (
