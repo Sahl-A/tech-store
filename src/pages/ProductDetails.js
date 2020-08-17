@@ -15,7 +15,6 @@ export default function ProductDetails() {
   const { id } = useParams();
   // Get current product from all products
   const currProduct = products.find((item) => item.id === parseInt(id));
-  console.log(currProduct)
   // Check if the products array is empty.
   // It happens when we open the ProductDetails page directly
   if (!products.length) return <Loading />;

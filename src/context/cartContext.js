@@ -1,15 +1,22 @@
 import React from "react";
 import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
 
-import cartReducer from '../reducers/cartReducer';
+import cartReducer from "../reducers/cartReducer";
+import {
+  increase,
+  decrease,
+  remove,
+  addTooCart,
+  clearAllCart,
+} from "../actions/cartActions";
 
 export const CartContext = React.createContext();
 
 export const CartProvider = ({ children }) => {
   // Set the needed values
-  
+
   // Use the localStorage hook to set the cart
-  const [cart, dispatch] = useLocalStorageReducer(cartReducer, 'cart', [])
+  const [cart, dispatch] = useLocalStorageReducer(cartReducer, "cart", []);
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [cartItemsCount, setCartItemsCount] = React.useState(0);
 
@@ -29,30 +36,29 @@ export const CartProvider = ({ children }) => {
     );
     setTotalPrice(parseFloat(price.toFixed(2)));
   }, [cart]);
-  // Use useReducer instead of regular context. 
+  // Use useReducer instead of regular context.
   // const [state, dispatch] = React.useReducer(cartReducer, [])
   // set the methods to be used
 
   // Remove item
   const removeItem = (id) => {
-    dispatch({type: 'REMOVE', id})
+    dispatch({ type: remove, id });
   };
   // increase amout
   const increaseAmount = (id) => {
-    dispatch({type: 'INCREASE', id})
-
+    dispatch({ type: increase, id });
   };
   // decrease amout
   const decreaseAmount = (id) => {
-    dispatch({type: 'DECREASE', id})
+    dispatch({ type: decrease, id });
   };
   // Add to cart
   const addToCart = (product) => {
-    dispatch({type: 'Add_TO_CART', product})
+    dispatch({ type: addTooCart, product });
   };
   // Clear Cart
   const clearCart = () => {
-    dispatch({type: 'CLEAR_CART'})
+    dispatch({ type: clearAllCart });
   };
 
   return (
@@ -65,7 +71,7 @@ export const CartProvider = ({ children }) => {
         increaseAmount,
         decreaseAmount,
         addToCart,
-        clearCart
+        clearCart,
       }}
     >
       {children}
